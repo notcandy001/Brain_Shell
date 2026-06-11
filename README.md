@@ -1,4 +1,4 @@
-  <h1 align=center>Brain_Shell</h1>
+<h1 align=center>Brain_Shell</h1>
   
   <h3 align="center">
   A dynamic, highly modular Wayland desktop shell built with Quickshell and QML, tailored for Hyprland.
@@ -85,6 +85,51 @@ The installer automatically:
 - ✓ Creates configuration directories
 
 **After installation, restart Hyprland for changes to take effect.**
+
+---
+
+### NixOS installation
+
+Brain Shell ships a Nix flake with a NixOS module and a standalone package. Choose whichever approach fits your setup:
+
+**Option 1 — Add to `configuration.nix`**
+
+Add the flake input and enable the module:
+
+```nix
+inputs.brain-shell.url = "github:Brainitech/Brain_Shell";
+
+programs.brain-shell.enable = true;
+```
+
+**Option 2 — Add to `flake.nix`**
+
+Import the NixOS module directly inside your system flake:
+
+```nix
+nixosConfigurations.hostname = nixpkgs.lib.nixosSystem {
+  modules = [
+    brain-shell.nixosModules.default
+    ./configuration.nix
+  ];
+};
+```
+
+Then rebuild your system:
+
+```bash
+sudo nixos-rebuild switch --flake .
+```
+
+**Try it without installing**
+
+To preview Brain Shell without committing to a rebuild:
+
+```bash
+nix shell github:Brainitech/Brain_Shell
+```
+
+This drops the package into your current shell. Note that configs and services won't be set up  treat it as a quick look only.
 
 ---
 
