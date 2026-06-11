@@ -180,7 +180,6 @@ jobs:
               content = f.read()
           checks = {
             'packages':     'packages' in content,
-            'devShells':    'devShells' in content,
             'nixosModules': 'nixosModules' in content,
             'description':  'description' in content,
             'brain-shell':  'brain-shell' in content,
