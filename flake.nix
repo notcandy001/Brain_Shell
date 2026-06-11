@@ -16,9 +16,9 @@
           src = ./.;
           phases = [ "installPhase" ];
           installPhase = ''
-            mkdir -p $out
-            cp -r src shell.qml $out/
-          '';
+           mkdir -p $out
+           cp -r $src/src $src/shell.qml $out/
+         '';
         };
       }
     ) // {
