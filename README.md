@@ -90,46 +90,40 @@ The installer automatically:
 
 ### NixOS installation
 
-Brain Shell ships a Nix flake with a NixOS module and a standalone package. Choose whichever approach fits your setup:
-
-**Option 1 — Add to `configuration.nix`**
-
-Add the flake input and enable the module:
+**1. Add Brain Shell to your system `flake.nix`**
 
 ```nix
-inputs.brain-shell.url = "github:Brainitech/Brain_Shell";
+{
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    brain-shell = {
+      url = "github:Brainitech/Brain_Shell";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
 
+  outputs = { nixpkgs, brain-shell, ... }: {
+    nixosConfigurations.hostname = nixpkgs.lib.nixosSystem {
+      modules = [
+        brain-shell.nixosModules.default
+        ./configuration.nix
+      ];
+    };
+  };
+}
+```
+
+**2. Enable it in your `configuration.nix`**
+
+```nix
 programs.brain-shell.enable = true;
 ```
 
-**Option 2 — Add to `flake.nix`**
-
-Import the NixOS module directly inside your system flake:
-
-```nix
-nixosConfigurations.hostname = nixpkgs.lib.nixosSystem {
-  modules = [
-    brain-shell.nixosModules.default
-    ./configuration.nix
-  ];
-};
-```
-
-Then rebuild your system:
+**3. Rebuild**
 
 ```bash
 sudo nixos-rebuild switch --flake .
 ```
-
-**Try it without installing**
-
-To preview Brain Shell without committing to a rebuild:
-
-```bash
-nix shell github:Brainitech/Brain_Shell
-```
-
-This drops the package into your current shell. Note that configs and services won't be set up  treat it as a quick look only.
 
 ---
 
