@@ -97,7 +97,7 @@ The installer automatically:
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     brain-shell = {
-      url = "github:Brainitech/Brain_Shell";
+      url = "github:notcandy001/Brain_Shell";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
